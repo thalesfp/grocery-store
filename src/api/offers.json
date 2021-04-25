@@ -1,0 +1,14 @@
+[
+  {
+    "condition": "Equal",
+    "quantity": 2,
+    "productName": "grape",
+    "discount": 0.5
+  },
+  {
+    "condition": "GreaterThanInclusive",
+    "quantity": 2,
+    "productName": "apple",
+    "discount": 0.2
+  }
+]

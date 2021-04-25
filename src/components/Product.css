@@ -1,0 +1,25 @@
+.products .product {
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+}
+
+.products .product-info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.products .product-name {
+  font-size: 1.4em;
+  text-transform: capitalize;
+}
+
+.products .product-price {
+  font-size: 1.4em;
+  font-weight: bold;
+  color: #36494e;
+}
+
+.products .product-quantity {
+  margin-bottom: 16px;
+}
