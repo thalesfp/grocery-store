@@ -1,25 +1,14 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { ShoppingCartContext } from "../../providers/shoppingCartProvider";
-import { ShoppingCartActionTypes } from "../../types";
 import Product from "../Product";
 
 describe("<Product />", () => {
   const apple = { name: "apple", price: 5 };
 
-  const shoppingCartContext = {
-    dispatch: jest.fn(),
-    state: {
-      products: [],
-    },
-  };
+  const onAddProduct = jest.fn();
 
   beforeEach(() => {
-    render(
-      <ShoppingCartContext.Provider value={shoppingCartContext}>
-        <Product product={apple} />
-      </ShoppingCartContext.Provider>
-    );
+    render(<Product product={apple} onAddProduct={onAddProduct} />);
   });
 
   it("renders formatted product price", () => {
@@ -29,10 +18,7 @@ describe("<Product />", () => {
   it("dispatchs add product event", () => {
     userEvent.click(screen.getByText("Add Product"));
 
-    expect(shoppingCartContext.dispatch).toHaveBeenCalledWith({
-      type: ShoppingCartActionTypes.add,
-      payload: { product: apple, quantity: 1 },
-    });
+    expect(onAddProduct).toHaveBeenCalledWith(apple, 1);
   });
 
   describe("when increasing quantity of product", () => {
@@ -43,10 +29,7 @@ describe("<Product />", () => {
 
       userEvent.click(screen.getByText("Add Product"));
 
-      expect(shoppingCartContext.dispatch).toHaveBeenCalledWith({
-        type: ShoppingCartActionTypes.add,
-        payload: { product: apple, quantity: 2 },
-      });
+      expect(onAddProduct).toHaveBeenCalledWith(apple, 2);
     });
   });
 });

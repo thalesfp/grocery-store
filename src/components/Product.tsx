@@ -1,10 +1,14 @@
-import { useContext, useRef } from "react";
-import { ShoppingCartContext } from "../providers/shoppingCartProvider";
-import { ProductType, ShoppingCartActionTypes } from "../types";
+import { useRef } from "react";
+import { ProductType } from "../types";
 import "./Product.css";
 
-function Product({ product }: { product: ProductType }) {
-  const { dispatch } = useContext(ShoppingCartContext);
+function Product({
+  product,
+  onAddProduct,
+}: {
+  product: ProductType;
+  onAddProduct: (product: ProductType, quantity: number) => void;
+}) {
   const quantityInput = useRef<HTMLInputElement>(null);
 
   const formattedPrice = (price = 0) =>
@@ -12,20 +16,6 @@ function Product({ product }: { product: ProductType }) {
       style: "currency",
       currency: "USD",
     }).format(price);
-
-  function addProduct(product: ProductType) {
-    const quantity = quantityInput.current?.value
-      ? parseInt(quantityInput.current.value)
-      : 1;
-
-    dispatch({
-      type: ShoppingCartActionTypes.add,
-      payload: {
-        product,
-        quantity,
-      },
-    });
-  }
 
   return (
     <form className="product pure-u-1-3 pure-form">
@@ -47,7 +37,9 @@ function Product({ product }: { product: ProductType }) {
       <button
         className="pure-button pure-button-primary"
         type="button"
-        onClick={() => addProduct(product)}
+        onClick={() =>
+          onAddProduct(product, parseInt(quantityInput.current?.value || "1"))
+        }
       >
         Add Product
       </button>
